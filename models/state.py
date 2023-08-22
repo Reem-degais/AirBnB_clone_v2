@@ -8,10 +8,20 @@ from os import getenv
 
 class State(BaseModel, Base):
     """ State class """
-    __tablename__ = 'state'
+    __tablename__ = 'states'
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         name = Column(String(128), nullable=False)
-        cities = relationship('City', backref='state',
-                           cascade='all, delete')
+        cities = relationship('City', backref='state', cascade='all, delete, delete-orphan')
     else:
         name = ''
+
+    if getenv("HBNB_TYPE_STORAGE") != "db":
+        @property
+        def cities(self):
+            """Get a list of all related City objects."""
+            from models import storage
+            city_list = []
+            for value in storage.all(City).values():
+                if value.state_id == self.id:
+                    city_list.append(value)
+            return city_list
