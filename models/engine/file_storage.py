@@ -33,6 +33,13 @@ class FileStorage:
             json.dump(temp, f)
 
     def delete(self, obj=None):
+        """
+        Deletes an object from storage if it exists.
+
+        Args:
+            obj (BaseModel, optional): The object to be deleted.
+            Defaults to None.
+            """
         if obj is not None:
             key = obj.to_dict()['__class__'] + '.' + obj.id
             del self.__objects[key]
