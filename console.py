@@ -114,15 +114,35 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
+        """ Create an object of any class with parameters"""
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        # Split the arguments into class name and parameters
+        args_list = args.split()
+        class_name = args_list[0]
+        params = args_list[1:]
+
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
+
+        new_instance = HBNBCommand.classes[class_name]()
+
+        # Process the parameters as key-value pairs
+        for param in params:
+            key, value = param.split("=")
+            value = value.replace("\"", "")  # Remove double quotes if present
+
+            if hasattr(new_instance, key):
+                # Convert the value to the appropriate type if necessary
+                if key in HBNBCommand.types:
+                    value = HBNBCommand.types[key](value)
+
+            setattr(new_instance, key, value)
+
+        new_instance.save()
         print(new_instance.id)
         storage.save()
 
@@ -270,7 +290,7 @@ class HBNBCommand(cmd.Cmd):
             for k, v in kwargs.items():
                 args.append(k)
                 args.append(v)
-        else:  # isolate args
+        else:   # isolate args
             args = args[2]
             if args and args[0] is '\"':  # check for quoted arg
                 second_quote = args.find('\"', 1)
@@ -319,6 +339,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
