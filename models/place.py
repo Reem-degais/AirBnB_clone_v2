@@ -31,6 +31,8 @@ class Place(BaseModel, Base):
         amenities = relationship(
                 "Amenity", secondary=place_amenity,
                 back_populates="place_amenities", viewonly=False)
+        reviews = relationship(
+                "Review", backref='place', cascade='all, delete, delete-orphan')
     else:
         @property
         def amenities(self):
@@ -46,3 +48,13 @@ class Place(BaseModel, Base):
         def amenities(self, obj):
             if isinstance(obj, Amenity):
                 self.amenity_ids.append(obj.id)
+
+        @property
+        def reviews(self):
+            """Get a list of all related review objects."""
+            from models import storage
+            reviews_list = []
+            for value in storage.all(Review).values():
+                if value.place_id == self.id:
+                    reviews_list.append(value)
+            return reviews_list
