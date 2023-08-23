@@ -13,6 +13,7 @@ place_amenity = Table(
                 Column("amenity_id", String(60), ForeignKey("amenities.id"),
                        primary_key=True, nullable=False))
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = 'places'
@@ -38,6 +39,11 @@ class Place(BaseModel, Base):
     else:
         @property
         def amenities(self):
+            """Getter method to retrieve the related Amenity objects.
+
+            Returns:
+                list: A list of Amenity objects associated with the place.
+            """
             from models import storage
             amenity_list = []
             for amenity_id in self.amenity_ids:
@@ -48,6 +54,11 @@ class Place(BaseModel, Base):
 
         @amenities.setter
         def amenities(self, obj):
+            """Setter method to add an Amenity object to the place's amenities.
+
+            Args:
+                obj (Amenity): The Amenity object to be added.
+            """
             if isinstance(obj, Amenity):
                 self.amenity_ids.append(obj.id)
 
