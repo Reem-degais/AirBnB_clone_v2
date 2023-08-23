@@ -39,7 +39,7 @@ class FileStorage:
         Args:
             obj (BaseModel, optional): The object to be deleted.
             Defaults to None.
-            """
+        """
         if obj is not None:
             key = obj.to_dict()['__class__'] + '.' + obj.id
             del self.__objects[key]
