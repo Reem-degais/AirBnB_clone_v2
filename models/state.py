@@ -7,7 +7,7 @@ from os import getenv
 
 
 class State(BaseModel, Base):
-    """ State class """
+    """ The State class which has relationship with the City class """
     __tablename__ = 'states'
     if getenv('HBNB_TYPE_STORAGE') == 'db':
         name = Column(String(128), nullable=False)
