@@ -13,6 +13,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm import scoped_session
 
+
 class DBStorage:
     """Database"""
     __engine = None
@@ -20,16 +21,19 @@ class DBStorage:
 
     def __init__(self):
         """Instantiation method"""
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'.format(
-            getenv('HBNB_MYSQL_USER'), getenv('HBNB_MYSQL_PWD'),
-            getenv('HBNB_MYSQL_HOST'), getenv('HBNB_MYSQL_DB')),
-            pool_pre_ping=True)
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}:3306/{}'.
+                                      format(getenv('HBNB_MYSQL_USER'),
+                                             getenv('HBNB_MYSQL_PWD'),
+                                             getenv('HBNB_MYSQL_HOST'),
+                                             getenv('HBNB_MYSQL_DB')),
+                                      pool_pre_ping=True)
         if getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """query on the current database all objects depending of the class name"""
-        objc ={}
+        """query on the current database all
+        objects depending of the class name"""
+        objc = {}
         classes = (User, State, City, Amenity, Place, Review)
         if cls:
             query = self.__session.query(cls)
