@@ -34,3 +34,10 @@ class TestConsole(unittest.TestCase):
         x = self.create()
         x.onecmd("create User")
         self.assertTrue(isinstance(self.capt_out.getvalue(), str))
+
+    def test_class_name(self):
+        """Testing the error for class name missing"""
+        x = self.create()
+        x.onecmd("create")
+        y = (self.capt_out.getvalue())
+        self.assertEqual("** class name missing **\n", x)
