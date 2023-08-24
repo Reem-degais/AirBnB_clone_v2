@@ -29,9 +29,6 @@ class TestConsole(unittest.TestCase):
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors")
 
-    @unittest.skipIf(
-        os.getenv('HBNB_TYPE_STORAGE') == 'db',
-        "will not work in db")
     def test_create(self):
         """Test that create"""
         x = self.create()
