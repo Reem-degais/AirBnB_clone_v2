@@ -17,6 +17,7 @@ echo '<html>
   <head>
   </head>
   <body>
+    Holberton School
   </body>
 </html>' | sudo tee /data/web_static/releases/test/index.html
 
