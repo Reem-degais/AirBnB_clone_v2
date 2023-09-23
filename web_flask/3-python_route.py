@@ -32,3 +32,8 @@ def python_text(text):
     """display python followed by the value of the text variable"""
     text_replaced = text.replace('_', ' ')
     return "Python {}".format(text_replaced)
+
+
+if __name__ == "__main__":
+    """start flask and listen 0.0.0.0, port 5000"""
+    app.run(host='0.0.0.0', port=5000)
