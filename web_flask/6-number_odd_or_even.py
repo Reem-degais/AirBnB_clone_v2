@@ -49,7 +49,6 @@ def number__template(n):
 @app.route("/number_odd_or_even/<int:n>")
 def number_odd_or_even(n):
     """display if n even or odd"""
-    """if isinstance(n, int):"""
     if n % 2 == 0:
         even_odd = "even"
     else:
