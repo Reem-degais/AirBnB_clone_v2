@@ -22,7 +22,8 @@ class State(BaseModel, Base):
             """Get a list of all related City objects."""
             from models import storage
             city_list = []
-            for value in storage.all(City).values():
-                if value.state_id == self.id:
+            city_dict = models.storage.all(models.City)
+            for value, key in city_dict.items():
+                if self.id == value.state_id:
                     city_list.append(value)
             return city_list
